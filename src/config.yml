@@ -23,9 +23,53 @@ guiitem:
         - ''
         - ''
         - ''
-      invslot: 34
+      invslot: 33
       target:
         - FOREST
+    itemthree:
+      type: biome
+      name: '&c&lDesert Biome'
+      material: SAND
+      lore:
+        - ''
+        - ''
+        - ''
+      invslot: 32
+      target:
+        - DESERT
+    itemfour:
+      type: biome
+      name: '&c&lPlains Biome'
+      material: GRASS
+      lore:
+        - ''
+        - ''
+        - ''
+      invslot: 31
+      target:
+        - PLAINS
+    itemfive:
+      type: biome
+      name: '&c&lJungle Biome'
+      material: LOG:3
+      lore:
+        - ''
+        - ''
+        - ''
+      invslot: 30
+      target:
+        - JUNGLE
+    itemfive:
+      type: biome
+      name: '&c&lMesa Biome'
+      material: 159:1
+      lore:
+        - ''
+        - ''
+        - ''
+      invslot: 29
+      target:
+        - MESA
   rangegui:
     itemone:
       name: '&f1000 &7- &f5000'
@@ -44,7 +88,7 @@ guiitem:
         - ''
         - ''
         - ''
-      invslot: 2
+      invslot: 4
       minrange: 5000
       maxrange: 7500
     itemthree:
@@ -54,6 +98,6 @@ guiitem:
         - ''
         - ''
         - ''
-      invslot: 2
+      invslot: 6
       minrange: 7500
       maxrange: 10000

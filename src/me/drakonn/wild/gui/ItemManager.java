@@ -31,7 +31,7 @@ public class ItemManager
         this.plugin = plugin;
     }
 
-    private boolean loadItems()
+    public void loadItems()
     {
         biomeItems.clear();
         worldItems.clear();
@@ -73,7 +73,6 @@ public class ItemManager
         {
             rangeInv.setItem(rangeItem.getInvSlot(), rangeItem.getItem());
         }
-        return true;
     }
 
     private void loadRangeItem(String path)
@@ -155,5 +154,13 @@ public class ItemManager
 
     public List<AbstractItem> getMainGuiItems() {
         return mainGuiItems;
+    }
+
+    public Inventory getMainInv() {
+        return mainInv;
+    }
+
+    public Inventory getRangeInv() {
+        return rangeInv;
     }
 }
