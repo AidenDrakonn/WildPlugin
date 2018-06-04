@@ -9,13 +9,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Wild extends JavaPlugin
 {
     private static Economy economy;
-    private static PlaceholderAPI placeholderAPI;
     private static Wild instance;
 
     public void onEnable()
     {
         loadEconomy();
-        loadPlaceholderApi();
         saveDefaultConfig();
         registerListeners();
         getCommand("wild").setExecutor(new Command());
@@ -33,11 +31,11 @@ public class Wild extends JavaPlugin
             economy = Util.setupEconomy(this);
     }
 
-    private void loadPlaceholderApi()
-    {
-        if(getServer().getPluginManager().getPlugin("PlaceHolderAPI") != null)
-            placeholderAPI = 
+    public static Economy getEconomy() {
+        return economy;
     }
 
-
+    public static Wild getInstance() {
+        return instance;
+    }
 }
