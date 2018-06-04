@@ -1,11 +1,59 @@
+gui:
+  main:
+    size: 36
+  range:
+    size: 9
+
 guiitem:
-  itemone:
-    name: '&2&lForest Biome'
-    lore:
-      - ''
-      - ''
-      - ''
-    invslot: 3
-    type: 'biome'
-    target:
-      - 'FOREST'
+  maingui:
+    itemone:
+      type: rangeselector
+      name: '&bRange Selector'
+      material: COMPASS
+      lore:
+        - ''
+        - ''
+        - ''
+      invslot: 13
+    itemtwo:
+      type: biome
+      name: '&2&lForest Biome'
+      material: LOG
+      lore:
+        - ''
+        - ''
+        - ''
+      invslot: 34
+      target:
+        - FOREST
+  rangegui:
+    itemone:
+      name: '&f1000 &7- &f5000'
+      material: REDSTONE_DUST
+      lore:
+        - ''
+        - ''
+        - ''
+      invslot: 2
+      minrange: 1000
+      maxrange: 5000
+    itemtwo:
+      name: '&f5000 &7- &f7500'
+      material: IRON_INGOT
+      lore:
+        - ''
+        - ''
+        - ''
+      invslot: 2
+      minrange: 5000
+      maxrange: 7500
+    itemthree:
+      name: '&f7500 &7- &f10000'
+      material: GOLD_INGOT
+      lore:
+        - ''
+        - ''
+        - ''
+      invslot: 2
+      minrange: 7500
+      maxrange: 10000

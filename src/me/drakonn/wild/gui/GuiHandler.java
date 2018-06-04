@@ -1,4 +1,6 @@
 package me.drakonn.wild.gui;
 
-public class GuiHandler {
+import org.bukkit.event.Listener;
+
+public class GuiHandler implements Listener {
 }

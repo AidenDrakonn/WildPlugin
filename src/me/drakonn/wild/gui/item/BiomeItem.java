@@ -1,19 +1,21 @@
 package me.drakonn.wild.gui.item;
 
-import me.drakonn.wild.util.Util;
-import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
 public class BiomeItem extends AbstractItem {
 
-    public BiomeItem(Material material, String name, List<String> lore, int invSlot)
+    public List<Biome> target;
+
+    public BiomeItem(ItemStack item, int invSlot, ItemType type, List<Biome> target)
     {
-        super(name, lore, material, invSlot);
+        super(item, invSlot, type);
+        this.target = target;
     }
 
-    public ItemStack getItem() {
-        return Util.createItem(getType(), getName(), getLore());
+    public List<Biome> getTarget() {
+        return target;
     }
 }
