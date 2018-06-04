@@ -1,7 +1,4 @@
 package me.drakonn.wild.gui;
 
-public class ItemStorage
-{
-
-
+public class GuiHandler {
 }

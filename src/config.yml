@@ -1,0 +1,11 @@
+guiitem:
+  itemone:
+    name: '&2&lForest Biome'
+    lore:
+      - ''
+      - ''
+      - ''
+    invslot: 3
+    type: 'biome'
+    target:
+      - 'FOREST'

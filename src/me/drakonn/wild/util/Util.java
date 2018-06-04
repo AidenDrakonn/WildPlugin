@@ -57,6 +57,10 @@ public class Util
         return createItem(mat, amt, 0, name, lore);
     }
 
+    public static ItemStack createItem(final Material mat, final String name, final List<String> lore) {
+        return createItem(mat, 1, 0, name, lore);
+    }
+
     public static ItemStack createItem(final Material mat, final int amt, final int durability, final String name,
                                        final String... lore) {
         final List<String> l = new ArrayList<String>();

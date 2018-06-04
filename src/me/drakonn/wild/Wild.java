@@ -1,7 +1,7 @@
 package me.drakonn.wild;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import me.drakonn.wild.command.Command;
+import me.drakonn.wild.filemanager.FileManager;
 import me.drakonn.wild.util.Util;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,11 +10,14 @@ public class Wild extends JavaPlugin
 {
     private static Economy economy;
     private static Wild instance;
+    private FileManager fileManager = new FileManager();
 
     public void onEnable()
     {
         loadEconomy();
         saveDefaultConfig();
+        fileManager.setupFile();
+        fileManager.loadData();
         registerListeners();
         getCommand("wild").setExecutor(new Command());
         instance = this;
