@@ -56,35 +56,17 @@ public abstract class AbstractPortal implements Listener
         return portalLocs;
     }
 
-    public static List<AbstractPortal> getPortals() {
-        return portals;
-    }
+    public static List<AbstractPortal> getPortals() { return portals; }
 
-    public static void setPortals(List<AbstractPortal> portals) {
-        AbstractPortal.portals = portals;
-    }
+    public static void setPortals(List<AbstractPortal> portals) { AbstractPortal.portals = portals; }
 
-    public List<Location> getPortalLoc() {
-        return portalLoc;
-    }
+    public List<Location> getPortalLoc() { return portalLoc; }
 
-    public void setPortalLoc(List<Location> portalLoc) {
-        this.portalLoc = portalLoc;
-    }
+    public Material getType() { return type; }
 
-    public Material getType() {
-        return type;
-    }
+    public void setType(Material type) { this.type = type; }
 
-    public void setType(Material type) {
-        this.type = type;
-    }
+    public String getName() { return name; }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
 }
