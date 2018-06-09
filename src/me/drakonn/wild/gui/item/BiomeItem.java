@@ -7,15 +7,15 @@ import java.util.List;
 
 public class BiomeItem extends AbstractItem {
 
-    public List<Biome> target;
+    public Biome target;
 
-    public BiomeItem(ItemStack item, int invSlot, ItemType type, List<Biome> target)
+    public BiomeItem(ItemStack item, int invSlot, ItemType type, Biome target, int cost)
     {
-        super(item, invSlot, type);
+        super(item, invSlot, type, cost);
         this.target = target;
     }
 
-    public List<Biome> getTarget() {
+    public Biome getTarget() {
         return target;
     }
 }

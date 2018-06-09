@@ -1,4 +1,4 @@
-package me.drakonn.wild.gui;
+package me.drakonn.wild.datamanager;
 
 import me.drakonn.wild.Wild;
 import me.drakonn.wild.gui.item.*;
@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
@@ -24,11 +25,14 @@ public class ItemManager
     private List<AbstractItem> mainGuiItems = new ArrayList<>();
     private Inventory mainInv;
     private Inventory rangeInv;
+    private Material noPermissionMaterial;
 
+    private FileConfiguration config;
     private Wild plugin;
     public ItemManager(Wild plugin)
     {
         this.plugin = plugin;
+        config = plugin.getConfig();
     }
 
     public void loadItems()
@@ -37,19 +41,19 @@ public class ItemManager
         worldItems.clear();
         rangeItems.clear();
         mainGuiItems.clear();
-        Set<String> rangePaths = plugin.getConfig().getConfigurationSection("guiitem.rangegui").getKeys(false);
-        Set<String> mainPaths = plugin.getConfig().getConfigurationSection("guiitem.maingui").getKeys(false);
+        Set<String> rangePaths = config.getConfigurationSection("guiitem.rangegui").getKeys(false);
+        Set<String> mainPaths = config.getConfigurationSection("guiitem.maingui").getKeys(false);
         for(String path : mainPaths)
         {
-            if(plugin.getConfig().getString(path+".type").equalsIgnoreCase("biome"))
+            if(config.getString("guiitem.maingui."+path+".type").equalsIgnoreCase("biome"))
             {
                 loadBiomeItem(path);
             }
-            if(plugin.getConfig().getString(path+"type").equalsIgnoreCase("world"))
+            if(config.getString("guiitem.maingui."+path+"type").equalsIgnoreCase("world"))
             {
                 loadWorldItem(path);
             }
-            if(plugin.getConfig().getString(path+"type").equalsIgnoreCase("rangeselector"))
+            if(config.getString("guiitem.maingui."+path+"type").equalsIgnoreCase("rangeselector"))
             {
                 loadRangeSelectorItem(path);
             }
@@ -60,74 +64,77 @@ public class ItemManager
             loadRangeItem(path);
         }
 
-        int mainInvSize = plugin.getConfig().getInt("gui.main.size");
+        int mainInvSize = config.getInt("gui.main.size");
         mainInv = Bukkit.createInventory(null, mainInvSize, "Wild");
         for(AbstractItem mainGuiItem : mainGuiItems)
         {
             mainInv.setItem(mainGuiItem.getInvSlot(), mainGuiItem.getItem());
         }
 
-        int rangeInvSize = plugin.getConfig().getInt("gui.range.size");
+        int rangeInvSize = config.getInt("gui.range.size");
         rangeInv = Bukkit.createInventory(null, rangeInvSize, "Range Selector");
         for(RangeItem rangeItem : rangeItems)
         {
             rangeInv.setItem(rangeItem.getInvSlot(), rangeItem.getItem());
         }
+
+        noPermissionMaterial = Material.valueOf(config.getString("default.nopermissionmaterial"));
     }
 
     private void loadRangeItem(String path)
     {
-
-        int maxRange = plugin.getConfig().getInt(path+".maxrange");
-        int minRange = plugin.getConfig().getInt(path+".minrange");
-        int invSlot = plugin.getConfig().getInt(path+".invslot");
-        ItemStack item = loadItem(path);
-        rangeItems.add(new RangeItem(item, invSlot, ItemType.RANGE, maxRange, minRange));
+        int cost = getCost("guiitem.rangegui."+path);
+        int maxRange = config.getInt("guiitem.rangegui."+path+".maxrange");
+        int minRange = config.getInt("guiitem.rangegui."+path+".minrange");
+        int invSlot = config.getInt("guiitem.rangegui."+path+".invslot");
+        ItemStack item = loadItem("guiitem.rangegui."+path);
+        rangeItems.add(new RangeItem(item, invSlot, ItemType.RANGE, maxRange, minRange, cost));
     }
 
     private void loadBiomeItem(String path)
     {
-        int invSlot = plugin.getConfig().getInt(path+".invslot");
-        List<Biome> target = new ArrayList<>();
-        for(String biomeName : plugin.getConfig().getStringList(path+".target"))
-            target.add(Biome.valueOf(biomeName));
-        ItemStack item = loadItem(path);
-        BiomeItem biomeItem = new BiomeItem(item, invSlot, ItemType.BIOME, target);
+        int invSlot = config.getInt("guiitem.maingui."+path+".invslot");
+        int cost = getCost("guiitem.maingui."+path);
+        Biome target = Biome.valueOf(config.getString("guiitem.maingui."+path+".target"));
+        ItemStack item = loadItem("guiitem.maingui."+path);
+        BiomeItem biomeItem = new BiomeItem(item, invSlot, ItemType.BIOME, target, cost);
         biomeItems.add(biomeItem);
         mainGuiItems.add(biomeItem);
     }
 
     private void loadWorldItem(String path)
     {
-        int invSlot = plugin.getConfig().getInt(path+".invslot");
-        String worldName = plugin.getConfig().getString(path+".target");
+        int invSlot = config.getInt("guiitem.maingui."+path+".invslot");
+        int cost = getCost("guiitem.maingui."+path);
+        String worldName = config.getString("guiitem.maingui."+path+".target");
         World target = Bukkit.getWorld(worldName);
-        ItemStack item = loadItem(path);
-        WorldItem worldItem = new WorldItem(item, invSlot, ItemType.WORLD, target);
+        ItemStack item = loadItem("guiitem.maingui."+path);
+        WorldItem worldItem = new WorldItem(item, invSlot, ItemType.WORLD, target, cost);
         worldItems.add(worldItem);
         mainGuiItems.add(worldItem);
     }
 
     private void loadRangeSelectorItem(String path)
     {
-        ItemStack item = loadItem(path);
-        int invSlot = plugin.getConfig().getInt(path+".invslot");
+        ItemStack item = loadItem("guiitem.maingui."+path);
+        int invSlot = config.getInt("guiitem.maingui."+path+".invslot");
         RangeSelectorItem rangeSelectorItem = new RangeSelectorItem(item, invSlot, ItemType.RANGESELECTOR);
         mainGuiItems.add(rangeSelectorItem);
     }
 
     private ItemStack loadItem(String path)
     {
-        String materialData = plugin.getConfig().getString(path+".material");
+        String materialData = config.getString(path+".material");
         Material material = Material.valueOf(materialData.split(":")[0]);
-        String name = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString(path+".name"));
-        List<String> lore = plugin.getConfig().getStringList(path+".lore");
+        String name = ChatColor.translateAlternateColorCodes('&', config.getString(path+".name"));
+        List<String> lore = config.getStringList(path+".lore");
         for(String loreString : lore)
         {
             lore.remove(loreString);
             loreString = ChatColor.translateAlternateColorCodes('&', loreString);
             lore.add(loreString);
         }
+
         ItemStack item = Util.createItem(material, name, lore);
         if(materialData.split(":").length == 2)
         {
@@ -138,6 +145,14 @@ public class ItemManager
         }
 
         return item;
+    }
+
+    private int getCost(String path)
+    {
+        Set<String> subPaths = config.getConfigurationSection(path).getKeys(false);
+        if(subPaths.contains("cost"))
+            return config.getInt(path+".cost");
+        return 0;
     }
 
     public List<BiomeItem> getBiomeItems() {

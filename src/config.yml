@@ -1,3 +1,21 @@
+default:
+  world: world
+  range: 10000
+  teleportdelay: 5
+  cooldown: 300
+  cost: 0
+  nopermissionmaterial: BARRIER
+
+messages:
+  teleportationstarted: '&8[&4RTP&8] &fYou will be teleported in &b%tpdelay% &fseconds do not move!'
+  teleported: '&8[&4RTP&8] &fYou have been teleported to &b%x%&f, &b%y%&f, &b%z%&f have fun!'
+  alreadyteleporting: '&8[&4RTP&8] &fYou are already teleporting!'
+  teleportationcancelled: '&8[&4RTP&8]&f Impending teleportation has been canceled!'
+  nolocationfound: '&8[&4RTP&8] &fHey! we could not find a safe space to teleport you to :('
+  oncooldown: '&8[&4RTP&8] &fHey! please wait another &b%minuets%&f minutes and &b%seconds% &fseconds before doing that'
+  invalidcommand: '&8[&4RTP&8] &fInvalid command, do /randomtp help for help!'
+  nopermission: '&8[&4RTP&8] &fHey! you do not have permission to do that!'
+
 gui:
   main:
     size: 36
@@ -15,6 +33,7 @@ guiitem:
         - ''
         - ''
       invslot: 13
+
     itemtwo:
       type: biome
       name: '&2&lForest Biome'
@@ -24,8 +43,8 @@ guiitem:
         - ''
         - ''
       invslot: 33
-      target:
-        - FOREST
+      target: FOREST
+
     itemthree:
       type: biome
       name: '&c&lDesert Biome'
@@ -35,8 +54,8 @@ guiitem:
         - ''
         - ''
       invslot: 32
-      target:
-        - DESERT
+      target: DESERT
+
     itemfour:
       type: biome
       name: '&c&lPlains Biome'
@@ -46,8 +65,8 @@ guiitem:
         - ''
         - ''
       invslot: 31
-      target:
-        - PLAINS
+      target: PLAINS
+
     itemfive:
       type: biome
       name: '&c&lJungle Biome'
@@ -57,9 +76,9 @@ guiitem:
         - ''
         - ''
       invslot: 30
-      target:
-        - JUNGLE
-    itemfive:
+      target: JUNGLE
+
+    itemsix:
       type: biome
       name: '&c&lMesa Biome'
       material: 159:1
@@ -68,8 +87,8 @@ guiitem:
         - ''
         - ''
       invslot: 29
-      target:
-        - MESA
+      target: MESA
+
   rangegui:
     itemone:
       name: '&f1000 &7- &f5000'
@@ -81,6 +100,7 @@ guiitem:
       invslot: 2
       minrange: 1000
       maxrange: 5000
+
     itemtwo:
       name: '&f5000 &7- &f7500'
       material: IRON_INGOT
@@ -91,6 +111,7 @@ guiitem:
       invslot: 4
       minrange: 5000
       maxrange: 7500
+
     itemthree:
       name: '&f7500 &7- &f10000'
       material: GOLD_INGOT

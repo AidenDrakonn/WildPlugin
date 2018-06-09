@@ -7,9 +7,9 @@ public class RangeItem extends AbstractItem
     public int maxRange;
     public int minRange;
 
-    public RangeItem(ItemStack item, int invSlot, ItemType type, int maxRange, int minRange)
+    public RangeItem(ItemStack item, int invSlot, ItemType type, int maxRange, int minRange, int cost)
     {
-        super(item, invSlot, type);
+        super(item, invSlot, type, cost);
         this.maxRange = maxRange;
         this.minRange = minRange;
     }

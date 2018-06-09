@@ -1,4 +1,4 @@
-package me.drakonn.wild.filemanager;
+package me.drakonn.wild.datamanager;
 
 import me.drakonn.wild.Wild;
 import me.drakonn.wild.portal.Portal;

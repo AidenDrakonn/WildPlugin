@@ -7,9 +7,9 @@ public class WorldItem extends AbstractItem {
 
     public World target;
 
-    public WorldItem(ItemStack item, int invSlot, ItemType type, World target)
+    public WorldItem(ItemStack item, int invSlot, ItemType type, World target, int cost)
     {
-        super(item, invSlot, type);
+        super(item, invSlot, type, cost);
         this.target = target;
     }
 

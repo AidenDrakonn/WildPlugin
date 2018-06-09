@@ -10,11 +10,14 @@ public abstract class AbstractItem
     private int invSlot;
     private ItemStack item;
     private ItemType type;
+    private int cost;
     private static List<AbstractItem> items = new ArrayList<>();
 
-    public AbstractItem(ItemStack item, int invSlot, ItemType type) {
+    public AbstractItem(ItemStack item, int invSlot, ItemType type, int cost) {
         this.item = item;
         this.invSlot = invSlot;
+        this.type = type;
+        this.cost = cost;
         items.add(this);
     }
 
