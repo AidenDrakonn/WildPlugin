@@ -4,12 +4,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class RangeItem extends AbstractItem
 {
-    public int maxRange;
-    public int minRange;
+    private int maxRange;
+    private int minRange;
 
-    public RangeItem(ItemStack item, int invSlot, ItemType type, int maxRange, int minRange, int cost)
+    public RangeItem(ItemStack item, int invSlot, ItemType type, int maxRange, int minRange, int cost, String permission)
     {
-        super(item, invSlot, type, cost);
+        super(item, invSlot, type, cost, permission);
         this.maxRange = maxRange;
         this.minRange = minRange;
     }

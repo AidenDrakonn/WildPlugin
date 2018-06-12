@@ -2,6 +2,7 @@ package me.drakonn.wild.util;
 
 import me.drakonn.wild.Wild;
 import me.drakonn.wild.datamanager.ConfigManager;
+import me.drakonn.wild.datamanager.ItemManager;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -158,5 +159,76 @@ public class Util
         return true;
 
     }
+
+    public static ItemStack changeAccess(ItemStack item, String access)
+    {
+        List<String> lore = item.getItemMeta().getLore();
+        ItemMeta meta = item.getItemMeta();
+
+        for(String string : lore)
+        {
+            lore.remove(string);
+            string = string.replaceAll("%access%", access);
+            lore.add(string);
+        }
+
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        if(access.equalsIgnoreCase("false"))
+            item.setType(ItemManager.noPermissionMaterial);
+        return item;
+    }
+
+    public static ItemStack setRangePlaceHolders(ItemStack item, Player player)
+    {
+        List<String> lore = item.getItemMeta().getLore();
+        ItemMeta meta = item.getItemMeta();
+        String minRange = "100";
+        String maxRange = String.valueOf(ConfigManager.range);
+        if(Wild.getInstance().maxRanges.containsKey(player.getUniqueId())
+        && Wild.getInstance().minRanges.containsKey(player.getUniqueId()))
+        {
+            minRange = String.valueOf(Wild.getInstance().minRanges.get(player.getUniqueId()));
+            maxRange = String.valueOf(Wild.getInstance().maxRanges.get(player.getUniqueId()));
+        }
+
+
+        for(String string : lore)
+        {
+            lore.remove(string);
+            string = string.replaceAll("%setminrange%", minRange);
+            string = string.replaceAll("%setmaxrange%", maxRange);
+            lore.add(string);
+        }
+
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public static ItemStack setPlaceHolders(ItemStack item, String cost, String biomeName, String worldName, String minRange, String maxRange)
+    {
+        List<String> lore = item.getItemMeta().getLore();
+        ItemMeta meta = item.getItemMeta();
+        if(cost.equalsIgnoreCase("0"))
+            cost = "free";
+
+        for(String string : lore)
+        {
+            lore.remove(string);
+            string = string.replaceAll("%cost%", cost);
+            string = string.replaceAll("%biome%", biomeName);
+            string = string.replaceAll("%world%", worldName);
+            string = string.replaceAll("%minrange%", minRange);
+            string = string.replaceAll("%maxrange%", maxRange);
+            lore.add(string);
+        }
+
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return item;
+    }
+
+
 
 }

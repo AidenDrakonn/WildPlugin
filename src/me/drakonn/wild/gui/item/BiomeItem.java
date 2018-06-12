@@ -7,11 +7,11 @@ import java.util.List;
 
 public class BiomeItem extends AbstractItem {
 
-    public Biome target;
+    private Biome target;
 
-    public BiomeItem(ItemStack item, int invSlot, ItemType type, Biome target, int cost)
+    public BiomeItem(ItemStack item, int invSlot, ItemType type, Biome target, int cost, String permission)
     {
-        super(item, invSlot, type, cost);
+        super(item, invSlot, type, cost, permission);
         this.target = target;
     }
 

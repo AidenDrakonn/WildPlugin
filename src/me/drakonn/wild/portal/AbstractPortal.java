@@ -11,15 +11,19 @@ import java.util.List;
 public abstract class AbstractPortal implements Listener
 {
     private static List<AbstractPortal> portals = new ArrayList<>();
+    private Location minLoc;
+    private Location maxLoc;
     private List<Location> portalLoc;
     private Material type;
     private String name;
 
-    public AbstractPortal(String name, Location maxLox, Location minLoc, Material type) {
+    public AbstractPortal(String name, Location maxLoc, Location minLoc, Material type) {
         Wild.getInstance().getServer().getPluginManager().registerEvents(this, Wild.getInstance());
-        this.portalLoc = generatePortal(maxLox, minLoc);
+        this.portalLoc = generatePortal(maxLoc, minLoc);
         this.type = type;
         this.name = name;
+        this.minLoc = minLoc;
+        this.maxLoc = maxLoc;
         portals.add(this);
     }
 
@@ -69,4 +73,8 @@ public abstract class AbstractPortal implements Listener
     public String getName() { return name; }
 
     public void setName(String name) { this.name = name; }
+
+    public Location getMinLoc() { return minLoc; }
+
+    public Location getMaxLoc() { return maxLoc; }
 }

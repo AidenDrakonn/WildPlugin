@@ -1,10 +1,12 @@
 package me.drakonn.wild.datamanager;
 
 import me.drakonn.wild.Wild;
+import me.drakonn.wild.portal.AbstractPortal;
 import me.drakonn.wild.portal.Portal;
 import me.drakonn.wild.util.Util;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -48,14 +50,13 @@ public class FileManager
 
     public void loadData()
     {
-        Set<String> portalNames = portalcfg.getConfigurationSection("portal").getKeys(false);
-        for(String portalName : portalNames)
+        ConfigurationSection portalSection = portalcfg.getConfigurationSection("portal");
+        for(String portalName : portalSection.getKeys(false))
         {
-            String minLocAsString = portalcfg.getString("portal."+portalName+".minloc");
-            Location minLoc = Util.stringToLocation(plugin, minLocAsString);
-            String maxLocAsString = portalcfg.getString("portal."+portalName+".maxloc");
-            Location maxLoc = Util.stringToLocation(plugin, maxLocAsString);
-            Material type = Material.valueOf(portalcfg.getString("portal."+portalName+".type"));
+            ConfigurationSection section = portalSection.getConfigurationSection(portalName);
+            Location minLoc = Util.stringToLocation(plugin, section.getString("minloc"));
+            Location maxLoc = Util.stringToLocation(plugin, section.getString("maxloc"));
+            Material type = Material.valueOf(section.getString("type"));
 
             new Portal(portalName, minLoc, maxLoc, type);
         }
@@ -63,7 +64,17 @@ public class FileManager
 
     public void saveData()
     {
-
+        ConfigurationSection topSection = portalcfg.createSection("portal");
+        for(AbstractPortal portal : AbstractPortal.getPortals())
+        {
+            ConfigurationSection section = topSection.createSection(portal.getName());
+            String minLocAsString = Util.locationToString(portal.getMinLoc());
+            String maxLocAsString = Util.locationToString(portal.getMaxLoc());
+            Material type = portal.getType();
+            section.set("minloc", minLocAsString);
+            section.set("maxloc", maxLocAsString);
+            section.set("type", type.toString());
+        }
     }
 
 }

@@ -33,7 +33,7 @@ public class Portal extends AbstractPortal
             return;
 
         Player player = event.getPlayer();
-        teleportationManager.teleportPlayer(player, ConfigManager.defaultWorld, null, ConfigManager.range, 100);
+        teleportationManager.teleportPlayer(player, ConfigManager.defaultWorld, null, ConfigManager.range, 100, ConfigManager.cost);
     }
 
 }

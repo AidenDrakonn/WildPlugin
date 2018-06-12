@@ -5,6 +5,7 @@ default:
   cooldown: 300
   cost: 0
   nopermissionmaterial: BARRIER
+  insufficientfunds: '&8[&4RTP&8] &fYou do not have enough money to do that!'
 
 messages:
   teleportationstarted: '&8[&4RTP&8] &fYou will be teleported in &b%tpdelay% &fseconds do not move!'
@@ -19,11 +20,18 @@ messages:
 gui:
   main:
     size: 36
+    name: 'Wild'
   range:
     size: 9
+    name: 'Wild - Range'
 
 guiitem:
   maingui:
+    standardlore:
+      - ''
+      - ''
+      - ''
+
     itemone:
       type: rangeselector
       name: '&bRange Selector'
@@ -36,89 +44,94 @@ guiitem:
 
     itemtwo:
       type: biome
-      name: '&2&lForest Biome'
+      name: '&a&lForest Biome'
       material: LOG
-      lore:
-        - ''
-        - ''
-        - ''
       invslot: 33
       target: FOREST
+      targetname: 'forest'
+      permission: maingui.forest
 
     itemthree:
       type: biome
-      name: '&c&lDesert Biome'
+      name: '&e&lDesert Biome'
       material: SAND
-      lore:
-        - ''
-        - ''
-        - ''
       invslot: 32
       target: DESERT
+      targetname: 'desert'
+      permission: maingui.desert
 
     itemfour:
       type: biome
-      name: '&c&lPlains Biome'
+      name: '&2&lPlains Biome'
       material: GRASS
-      lore:
-        - ''
-        - ''
-        - ''
       invslot: 31
       target: PLAINS
+      targetname: 'plains'
+      permission: maingui.plains
 
     itemfive:
       type: biome
-      name: '&c&lJungle Biome'
+      name: '&a&lJungle Biome'
       material: LOG:3
-      lore:
-        - ''
-        - ''
-        - ''
       invslot: 30
       target: JUNGLE
+      targetname: 'jungle'
+      permission: maingui.jungle
 
     itemsix:
       type: biome
-      name: '&c&lMesa Biome'
+      name: '&6&lMesa Biome'
       material: 159:1
-      lore:
-        - ''
-        - ''
-        - ''
       invslot: 29
       target: MESA
+      targetname: 'mesa'
+      permission: maingui.mesa
+
+    itemseven:
+      type: world
+      name: '&2&lThe Overworld'
+      material: 159:1
+      invslot: 29
+      target: world
+      targetname: 'overworld'
+      permission: maingui.overworld
+
+    itemseven:
+      type: world
+      name: '&e&lThe End'
+      material: 159:1
+      invslot: 29
+      target: world
+      targetname: 'overworld'
+      permission: maingui.overworld
+
 
   rangegui:
+    standardlore:
+      - ''
+      - ''
+      - ''
+
     itemone:
       name: '&f1000 &7- &f5000'
       material: REDSTONE_DUST
-      lore:
-        - ''
-        - ''
-        - ''
       invslot: 2
       minrange: 1000
       maxrange: 5000
+      permission: rangegui.1000
 
     itemtwo:
       name: '&f5000 &7- &f7500'
       material: IRON_INGOT
-      lore:
-        - ''
-        - ''
-        - ''
       invslot: 4
       minrange: 5000
       maxrange: 7500
+      permission: rangegui.5000
 
     itemthree:
       name: '&f7500 &7- &f10000'
       material: GOLD_INGOT
-      lore:
-        - ''
-        - ''
-        - ''
       invslot: 6
       minrange: 7500
       maxrange: 10000
+      permission: rangegui.7500

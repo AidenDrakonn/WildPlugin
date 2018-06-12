@@ -11,18 +11,16 @@ public abstract class AbstractItem
     private ItemStack item;
     private ItemType type;
     private int cost;
+    private String permission;
     private static List<AbstractItem> items = new ArrayList<>();
 
-    public AbstractItem(ItemStack item, int invSlot, ItemType type, int cost) {
+    public AbstractItem(ItemStack item, int invSlot, ItemType type, int cost, String permission) {
         this.item = item;
         this.invSlot = invSlot;
         this.type = type;
         this.cost = cost;
+        this.permission = permission;
         items.add(this);
-    }
-
-    public boolean isItem(ItemStack item) {
-        return item.isSimilar(getItem());
     }
 
     public static AbstractItem getAbstractItem(ItemStack item) {
@@ -35,4 +33,9 @@ public abstract class AbstractItem
     public ItemStack getItem() { return item; }
 
     public ItemType getType() { return type; }
+
+    public int getCost() { return cost; }
+
+    public String getPermission() { return permission; }
+
 }

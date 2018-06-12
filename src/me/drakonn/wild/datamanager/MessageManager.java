@@ -14,6 +14,7 @@ public class MessageManager
     public static String invalidCommand;
     public static String noPermission;
     public static String noLocationFound;
+    public static String insufficientFunds;
 
     private Wild plugin;
     public MessageManager(Wild plugin) {
@@ -31,5 +32,6 @@ public class MessageManager
         invalidCommand = ChatColor.translateAlternateColorCodes('&', config.getString("messages.invalidcommand"));
         noPermission = ChatColor.translateAlternateColorCodes('&', config.getString("messages.nopermission"));
         noLocationFound = ChatColor.translateAlternateColorCodes('&', config.getString("messages.nolocationfound"));
+        insufficientFunds = ChatColor.translateAlternateColorCodes('&', config.getString("messages.insufficientfunds"));
     }
 }
