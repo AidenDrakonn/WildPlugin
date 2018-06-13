@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class MainInvHandler implements Listener
@@ -25,13 +24,16 @@ public class MainInvHandler implements Listener
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event)
     {
+        if(!(event.getWhoClicked() instanceof Player))
+            return;
+
+        if(event.getClickedInventory() == null)
+            return;
+
         if(!event.getClickedInventory().getTitle().equals(ItemManager.mainInvName))
             return;
 
         if(event.getClickedInventory().getSize() != ItemManager.mainInvSize)
-            return;
-
-        if(!(event.getWhoClicked() instanceof Player))
             return;
 
         Player player = (Player)event.getWhoClicked();
@@ -57,14 +59,14 @@ public class MainInvHandler implements Listener
         int minRange = getMin(player);
         int maxRange = getMax(player);
 
-        if(abstractItem instanceof WorldItem) {
+        if(abstractItem.getType().equals(ItemType.WORLD)) {
             WorldItem worldItem = (WorldItem)abstractItem;
             teleportationManager.teleportPlayer(player, worldItem.getTarget(), null, maxRange, minRange, worldItem.getCost());
             player.closeInventory();
             return;
         }
 
-        if(abstractItem instanceof BiomeItem) {
+        if(abstractItem.getType().equals(ItemType.BIOME)) {
             BiomeItem biomeItem = (BiomeItem) abstractItem;
             teleportationManager.teleportPlayer(player, ConfigManager.defaultWorld, biomeItem.getTarget(), maxRange, minRange, biomeItem.getCost());
             player.closeInventory();

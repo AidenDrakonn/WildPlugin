@@ -3,30 +3,16 @@ package me.drakonn.wild.util;
 import me.drakonn.wild.Wild;
 import me.drakonn.wild.datamanager.ConfigManager;
 import me.drakonn.wild.datamanager.ItemManager;
-import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.permission.Permission;
 import org.bukkit.*;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.enchantments.EnchantmentWrapper;
-import org.bukkit.entity.Ageable;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.*;
 
 public class Util
@@ -128,9 +114,10 @@ public class Util
 
     public static Location getRandomLocation(World world, int maxRange)
     {
-        int randomX = (int) (Math.random()*2-1) * maxRange;
-        int randomZ = (int) (Math.random()*2-1) * maxRange;
+        int randomX = (int) (long) Math.round(((Math.random() * 2) - 1) * maxRange);
+        int randomZ = (int) (long) Math.round(((Math.random() * 2) - 1) * maxRange);
         int y = world.getHighestBlockYAt(randomX, randomZ);
+        Bukkit.broadcastMessage(Integer.toString(y));
         return new Location(world, randomX, y, randomZ);
     }
 
@@ -138,7 +125,8 @@ public class Util
     {
         Material blockType = location.getBlock().getType();
         Material blockBelowType = location.add(0,-1,0).getBlock().getType();
-        if(isSafe(blockType) && isSafe(blockBelowType) && isInRange(minRange, location))
+        if(isSafe(blockType) && isSafe(blockBelowType) && isInRange(minRange, location)
+        && blockType.equals(Material.AIR) && !blockBelowType.equals(Material.AIR))
             return true;
         return false;
     }
@@ -147,6 +135,10 @@ public class Util
     {
         int x = location.getBlockX();
         int z = location.getBlockZ();
+        if(x < 0)
+            x = Math.abs(x);
+        if(z < 0)
+            z = Math.abs(z);
         if((x >= minRange || z >= minRange))
             return true;
         return false;
@@ -163,45 +155,48 @@ public class Util
     public static ItemStack changeAccess(ItemStack item, String access)
     {
         List<String> lore = item.getItemMeta().getLore();
+        List<String> newLore = new ArrayList<>();
         ItemMeta meta = item.getItemMeta();
 
         for(String string : lore)
         {
-            lore.remove(string);
             string = string.replaceAll("%access%", access);
-            lore.add(string);
+            newLore.add(string);
         }
 
-        meta.setLore(lore);
+        meta.setLore(newLore);
         item.setItemMeta(meta);
-        if(access.equalsIgnoreCase("false"))
+        if(access.equalsIgnoreCase(ConfigManager.accessFalse))
             item.setType(ItemManager.noPermissionMaterial);
         return item;
     }
 
     public static ItemStack setRangePlaceHolders(ItemStack item, Player player)
     {
+        Bukkit.broadcastMessage("setting range placeholder for " + item.toString());
         List<String> lore = item.getItemMeta().getLore();
+        List<String> newLore = new ArrayList<>();
         ItemMeta meta = item.getItemMeta();
-        String minRange = "100";
+        String minRange = "0";
         String maxRange = String.valueOf(ConfigManager.range);
-        if(Wild.getInstance().maxRanges.containsKey(player.getUniqueId())
-        && Wild.getInstance().minRanges.containsKey(player.getUniqueId()))
-        {
-            minRange = String.valueOf(Wild.getInstance().minRanges.get(player.getUniqueId()));
+        if(Wild.getInstance().maxRanges.containsKey(player.getUniqueId())) {
             maxRange = String.valueOf(Wild.getInstance().maxRanges.get(player.getUniqueId()));
+            Bukkit.broadcastMessage("set maxrange to "+ String.valueOf(Wild.getInstance().maxRanges.get(player.getUniqueId())));
         }
 
+        if(Wild.getInstance().minRanges.containsKey(player.getUniqueId())) {
+            minRange = String.valueOf(Wild.getInstance().minRanges.get(player.getUniqueId()));
+            Bukkit.broadcastMessage("set minrange to "+ String.valueOf(Wild.getInstance().minRanges.get(player.getUniqueId())));
+        }
 
         for(String string : lore)
         {
-            lore.remove(string);
-            string = string.replaceAll("%setminrange%", minRange);
-            string = string.replaceAll("%setmaxrange%", maxRange);
-            lore.add(string);
+            string = string.replaceAll("%currentmin%", minRange);
+            string = string.replaceAll("%currentmax%", maxRange);
+            newLore.add(string);
         }
 
-        meta.setLore(lore);
+        meta.setLore(newLore);
         item.setItemMeta(meta);
         return item;
     }
@@ -209,24 +204,39 @@ public class Util
     public static ItemStack setPlaceHolders(ItemStack item, String cost, String biomeName, String worldName, String minRange, String maxRange)
     {
         List<String> lore = item.getItemMeta().getLore();
+        List<String> newLore = new ArrayList<>();
         ItemMeta meta = item.getItemMeta();
+        String target;
+        target = biomeName;
+        if(biomeName.isEmpty())
+            target = worldName;
+
         if(cost.equalsIgnoreCase("0"))
             cost = "free";
 
         for(String string : lore)
         {
-            lore.remove(string);
             string = string.replaceAll("%cost%", cost);
             string = string.replaceAll("%biome%", biomeName);
             string = string.replaceAll("%world%", worldName);
+            string = string.replaceAll("%target%", target);
             string = string.replaceAll("%minrange%", minRange);
             string = string.replaceAll("%maxrange%", maxRange);
-            lore.add(string);
+            newLore.add(string);
         }
 
-        meta.setLore(lore);
+        meta.setLore(newLore);
         item.setItemMeta(meta);
         return item;
+    }
+
+    public static boolean isInt(final String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (final NumberFormatException e) {
+            return false;
+        }
     }
 
 

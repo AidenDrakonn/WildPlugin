@@ -8,14 +8,20 @@ default:
   insufficientfunds: '&8[&4RTP&8] &fYou do not have enough money to do that!'
 
 messages:
-  teleportationstarted: '&8[&4RTP&8] &fYou will be teleported in &b%tpdelay% &fseconds do not move!'
-  teleported: '&8[&4RTP&8] &fYou have been teleported to &b%x%&f, &b%y%&f, &b%z%&f have fun!'
-  alreadyteleporting: '&8[&4RTP&8] &fYou are already teleporting!'
-  teleportationcancelled: '&8[&4RTP&8]&f Impending teleportation has been canceled!'
-  nolocationfound: '&8[&4RTP&8] &fHey! we could not find a safe space to teleport you to :('
-  oncooldown: '&8[&4RTP&8] &fHey! please wait another &b%minuets%&f minutes and &b%seconds% &fseconds before doing that'
-  invalidcommand: '&8[&4RTP&8] &fInvalid command, do /randomtp help for help!'
-  nopermission: '&8[&4RTP&8] &fHey! you do not have permission to do that!'
+  teleportationstarted: '&8[&2Wild&8] &fYou will be teleported in &b%tpdelay% &fseconds do not move!'
+  teleported: '&8[&2Wild&8] &fYou have been teleported to &b%x%&f, &b%y%&f, &b%z%&f have fun!'
+  alreadyteleporting: '&8[&2Wild&8] &fYou are already teleporting!'
+  teleportationcancelled: '&8[&2Wild&8]&f Impending teleportation has been canceled!'
+  nolocationfound: '&8[&2Wild&8] &fHey! we could not find a safe space to teleport you to :('
+  oncooldown: '&8[&2Wild&8] &fHey! please wait another &b%minuets%&f minutes and &b%seconds% &fseconds before doing that'
+  invalidcommand: '&8[&2Wild&8] &fInvalid command, do /randomtp help for help!'
+  nopermission: '&8[&2Wild&8] &fHey! you do not have permission to do that!'
+  insufficientfunds: '&8[&2Wild&8] &fYou do not have enough money to do that!'
+  targetoffline: '&8[&2Wild&8] &f%player% is not online'
+
+access:
+  true: '&aYes'
+  false: '&4No'
 
 gui:
   main:
@@ -28,30 +34,31 @@ gui:
 guiitem:
   maingui:
     standardlore:
+      - '&fClick to teleport to the %target%'
       - ''
+      - '&fHas access: %access%'
       - ''
-      - ''
+      - '&fCost: &b%cost%'
 
-    itemone:
+    rangeselector:
       type: rangeselector
       name: '&bRange Selector'
       material: COMPASS
       lore:
-        - ''
-        - ''
-        - ''
-      invslot: 13
+        - '&fSelect a range to teleport to'
+        - '&fYour range is currently set to &b%currentmin% &8- &b%currentmax%'
+      invslot: 4
 
-    itemtwo:
+    forest:
       type: biome
       name: '&a&lForest Biome'
-      material: LOG
+      material: LEAVES
       invslot: 33
       target: FOREST
       targetname: 'forest'
       permission: maingui.forest
 
-    itemthree:
+    desert:
       type: biome
       name: '&e&lDesert Biome'
       material: SAND
@@ -60,76 +67,78 @@ guiitem:
       targetname: 'desert'
       permission: maingui.desert
 
-    itemfour:
+    plains:
       type: biome
       name: '&2&lPlains Biome'
-      material: GRASS
-      invslot: 31
+      material: 3
+      invslot: 30
       target: PLAINS
       targetname: 'plains'
       permission: maingui.plains
 
-    itemfive:
+    jungle:
       type: biome
       name: '&a&lJungle Biome'
       material: LOG:3
-      invslot: 30
+      invslot: 29
       target: JUNGLE
       targetname: 'jungle'
       permission: maingui.jungle
 
-    itemsix:
-      type: biome
-      name: '&6&lMesa Biome'
-      material: 159:1
-      invslot: 29
-      target: MESA
-      targetname: 'mesa'
-      permission: maingui.mesa
-
-    itemseven:
+    overworld:
       type: world
       name: '&2&lThe Overworld'
-      material: 159:1
-      invslot: 29
+      material: GRASS
+      invslot: 21
       target: world
       targetname: 'overworld'
       permission: maingui.overworld
 
-    itemseven:
+    end:
       type: world
       name: '&e&lThe End'
-      material: 159:1
-      invslot: 29
-      target: world
+      material: ENDER_STONE
+      invslot: 23
+      target: world_the_end
       targetname: 'overworld'
-      permission: maingui.overworld
+      permission: maingui.end
+
+    end:
+      type: world
+      name: '&e&lThe End'
+      material: ENDER_STONE
+      invslot: 23
+      target: world_nether
+      targetname: 'nether'
+      permission: maingui.nether
 
 
   rangegui:
     standardlore:
+      - '&fClick to set range to &b%minrange% &8- &b%maxrange%'
       - ''
+      - '&fHas access&7: %access%'
       - ''
-      - ''
+      - '&fCost&7: &b%cost%'
 
-    itemone:
-      name: '&f1000 &7- &f5000'
-      material: REDSTONE_DUST
+    rangeone:
+      name: '&b1000 &8- &b5000'
+      material: REDSTONE
       invslot: 2
       minrange: 1000
       maxrange: 5000
       permission: rangegui.1000
 
-    itemtwo:
-      name: '&f5000 &7- &f7500'
+    rangetwo:
+      name: '&b5000 &8- &b7500'
       material: IRON_INGOT
       invslot: 4
       minrange: 5000
       maxrange: 7500
       permission: rangegui.5000
 
-    itemthree:
-      name: '&f7500 &7- &f10000'
+    rangethree:
+      name: '&b7500 &8- &b10000'
       material: GOLD_INGOT
       invslot: 6
       minrange: 7500

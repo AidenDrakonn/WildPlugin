@@ -14,20 +14,24 @@ import me.drakonn.wild.util.Util;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class Wild extends JavaPlugin
 {
     private static Wild instance;
+    public TeleportationDelay teleportationDelay = new TeleportationDelay();
+    public TeleportationCooldown teleportationCooldown = new TeleportationCooldown();
     private FileManager fileManager = new FileManager(this);
     private ItemManager itemManager = new ItemManager(this);
     private ConfigManager configManager = new ConfigManager(this);
     private MessageManager messageManager = new MessageManager(this);
-    public TeleportationDelay teleportationDelay = new TeleportationDelay();
-    public TeleportationCooldown teleportationCooldown = new TeleportationCooldown();
+    private Command command;
     public HashMap<UUID, Integer> minRanges = new HashMap<>();
     public HashMap<UUID, Integer> maxRanges = new HashMap<>();
+    public List<UUID> teleporting = new ArrayList<>();
     public WorldEditPlugin worldEdit;
     private Economy economy;
 
@@ -35,15 +39,16 @@ public class Wild extends JavaPlugin
     {
         instance = this;
         saveDefaultConfig();
-        fileManager.setupFile();
-        fileManager.loadData();
-        itemManager.loadItems();
-        configManager.loadData();
-        messageManager.loadMessages();
         loadEconomy();
         loadWorldEdit();
+        configManager.loadData();
+        itemManager.loadItems();
+        fileManager.setupFile();
+        fileManager.loadData();
+        messageManager.loadMessages();
         registerListeners();
-        getCommand("wild").setExecutor(new Command());
+        command = new Command();
+        getCommand("wild").setExecutor(command);
     }
 
     public void onDisable()

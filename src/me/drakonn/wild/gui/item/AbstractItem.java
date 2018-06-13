@@ -24,13 +24,14 @@ public abstract class AbstractItem
     }
 
     public static AbstractItem getAbstractItem(ItemStack item) {
-        return items.stream().filter(abstractItem -> abstractItem.getItem().isSimilar(item))
+        return items.stream().filter(abstractItem -> abstractItem.getItem().getItemMeta().getDisplayName().equalsIgnoreCase(item.getItemMeta().getDisplayName())
+        && abstractItem.getItem().getType().equals(item.getType()))
                 .findFirst().orElse(null);
     }
 
     public int getInvSlot() { return invSlot; }
 
-    public ItemStack getItem() { return item; }
+    public ItemStack getItem() { return item.clone(); }
 
     public ItemType getType() { return type; }
 

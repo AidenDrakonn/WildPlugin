@@ -22,14 +22,15 @@ public class RangeInventory {
         {
             ItemStack item = rangeItem.getItem();
             if(!player.hasPermission(rangeItem.getPermission()))
-                item = Util.changeAccess(item, "false");
+                item = Util.changeAccess(item, ConfigManager.accessFalse);
 
             if(player.hasPermission(rangeItem.getPermission()))
-                item = Util.changeAccess(item, "true");
+                item = Util.changeAccess(item, ConfigManager.accessTrue);
 
             inv.setItem(rangeItem.getInvSlot(), item);
-
         }
+
+        player.openInventory(inv);
     }
 
 }

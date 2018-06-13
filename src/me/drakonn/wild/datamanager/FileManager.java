@@ -51,6 +51,8 @@ public class FileManager
     public void loadData()
     {
         ConfigurationSection portalSection = portalcfg.getConfigurationSection("portal");
+        if(portalSection == null)
+            return;
         for(String portalName : portalSection.getKeys(false))
         {
             ConfigurationSection section = portalSection.getConfigurationSection(portalName);

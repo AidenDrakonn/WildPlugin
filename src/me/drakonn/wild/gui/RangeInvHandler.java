@@ -4,6 +4,7 @@ import me.drakonn.wild.Wild;
 import me.drakonn.wild.datamanager.ItemManager;
 import me.drakonn.wild.gui.inventory.MainInventory;
 import me.drakonn.wild.gui.item.AbstractItem;
+import me.drakonn.wild.gui.item.ItemType;
 import me.drakonn.wild.gui.item.RangeItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class RangeInvHandler implements Listener
 {
@@ -19,13 +21,16 @@ public class RangeInvHandler implements Listener
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event)
     {
+        if(!(event.getWhoClicked() instanceof Player))
+            return;
+
+        if(event.getClickedInventory() == null)
+            return;
+
         if(!event.getClickedInventory().getTitle().equals(ItemManager.rangeInvName))
             return;
 
         if(event.getClickedInventory().getSize() != ItemManager.rangeInvSize)
-            return;
-
-        if(!(event.getWhoClicked() instanceof Player))
             return;
 
         Player player = (Player)event.getWhoClicked();
@@ -41,12 +46,18 @@ public class RangeInvHandler implements Listener
         if(clickedItem.getType().equals(ItemManager.noPermissionMaterial))
             return;
 
-        if(!(AbstractItem.getAbstractItem(clickedItem) instanceof RangeItem))
+        if(!(AbstractItem.getAbstractItem(clickedItem).getType().equals(ItemType.RANGE)))
             return;
 
         RangeItem rangeItem = (RangeItem)AbstractItem.getAbstractItem(clickedItem);
         Wild.getInstance().minRanges.put(player.getUniqueId(), rangeItem.getMinRange());
         Wild.getInstance().maxRanges.put(player.getUniqueId(), rangeItem.getMaxRange());
-        mainInventory.openInventory(player);
+
+        new BukkitRunnable()
+        {
+        public void run() {
+            mainInventory.openInventory(player);
+        }
+        }.runTaskLater(Wild.getInstance(), 3);
     }
 }

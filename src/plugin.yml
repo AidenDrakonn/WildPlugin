@@ -1,0 +1,8 @@
+name: Wild
+version: 0.1
+main: me.drakonn.wild.Wild
+author: Drakonn
+commands:
+  wild:
+    aliases: [rtp, randomtp]
+    description: teleports the player to a random location
