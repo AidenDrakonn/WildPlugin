@@ -1,0 +1,112 @@
+maingui:
+  standardlore:
+    - '&fClick to teleport to the %target%'
+    - ''
+    - '&fHas access: %access%'
+    - ''
+    - '&fCost: &b%cost%'
+
+  rangeselector:
+    type: rangeselector
+    name: '&bRange Selector'
+    material: COMPASS
+    lore:
+      - '&fSelect a range to teleport to'
+      - '&fYour range is currently set to &b%currentmin% &8- &b%currentmax%'
+    invslot: 4
+
+  forest:
+    type: biome
+    name: '&a&lForest Biome'
+    material: LEAVES
+    invslot: 33
+    target: FOREST
+    targetname: 'forest'
+    permission: wild.maingui.forest
+
+  desert:
+    type: biome
+    name: '&e&lDesert Biome'
+    material: SAND
+    invslot: 32
+    target: DESERT
+    targetname: 'desert'
+    permission: wild.maingui.desert
+
+  plains:
+    type: biome
+    name: '&2&lPlains Biome'
+    material: 3
+    invslot: 30
+    target: PLAINS
+    targetname: 'plains'
+    permission: wild.maingui.plains
+
+  jungle:
+    type: biome
+    name: '&a&lJungle Biome'
+    material: LOG:3
+    invslot: 29
+    target: JUNGLE
+    targetname: 'jungle'
+    permission: wild.maingui.jungle
+
+  overworld:
+    type: world
+    name: '&2&lThe Overworld'
+    material: GRASS
+    invslot: 21
+    target: world
+    targetname: 'overworld'
+    permission: wild.maingui.overworld
+
+  end:
+    type: world
+    name: '&e&lThe End'
+    material: ENDER_STONE
+    invslot: 23
+    target: world_the_end
+    targetname: 'overworld'
+    permission: wild.maingui.end
+
+  nether:
+    type: world
+    name: '&4&lThe Nether'
+    material: NETHERACK
+    invslot: 24
+    target: world_nether
+    targetname: 'nether'
+    permission: wild.maingui.nether
+
+
+rangegui:
+  standardlore:
+    - '&fClick to set range to &b%minrange% &8- &b%maxrange%'
+    - ''
+    - '&fHas access&7: %access%'
+    - ''
+    - '&fCost&7: &b%cost%'
+
+  rangeone:
+    name: '&b1000 &8- &b5000'
+    material: REDSTONE
+    invslot: 2
+    minrange: 1000
+    maxrange: 5000
+    permission: wild.rangegui.1000
+
+  rangetwo:
+    name: '&b5000 &8- &b7500'
+    material: IRON_INGOT
+    invslot: 4
+    minrange: 5000
+    maxrange: 7500
+    permission: wild.rangegui.5000
+
+  rangethree:
+    name: '&b7500 &8- &b10000'
+    material: GOLD_INGOT
+    invslot: 6
+    minrange: 7500
+    maxrange: 10000
+    permission: wild.rangegui.7500

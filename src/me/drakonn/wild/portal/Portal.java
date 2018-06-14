@@ -26,14 +26,17 @@ public class Portal extends AbstractPortal
         if(!event.getTo().getWorld().equals(getPortalLoc().get(0).getWorld()))
             return;
 
-        if(getPortalLoc().contains(event.getFrom().getBlock().getLocation()))
+        if(!event.getTo().getBlock().getType().equals(getType()))
             return;
 
         if(!getPortalLoc().contains(event.getTo().getBlock().getLocation()))
             return;
 
+        if(getPortalLoc().contains(event.getFrom().getBlock().getLocation()))
+            return;
+
         Player player = event.getPlayer();
-        teleportationManager.teleportPlayer(player, ConfigManager.defaultWorld, null, ConfigManager.range, 100, ConfigManager.cost);
+        teleportationManager.teleportPlayer(player, ConfigManager.defaultWorld, null, ConfigManager.range, 1000, ConfigManager.cost);
     }
 
 }

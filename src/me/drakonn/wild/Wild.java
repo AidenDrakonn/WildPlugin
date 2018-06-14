@@ -12,8 +12,14 @@ import me.drakonn.wild.teleportation.TeleportationCooldown;
 import me.drakonn.wild.teleportation.TeleportationDelay;
 import me.drakonn.wild.util.Util;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +40,8 @@ public class Wild extends JavaPlugin
     public List<UUID> teleporting = new ArrayList<>();
     public WorldEditPlugin worldEdit;
     private Economy economy;
+    public File itemConfigFile;
+    public FileConfiguration itemConfig;
 
     public void onEnable()
     {
@@ -42,13 +50,15 @@ public class Wild extends JavaPlugin
         loadEconomy();
         loadWorldEdit();
         configManager.loadData();
-        itemManager.loadItems();
         fileManager.setupFile();
         fileManager.loadData();
+        createCustomConfig();
+        itemManager.loadItems();
         messageManager.loadMessages();
         registerListeners();
         command = new Command();
         getCommand("wild").setExecutor(command);
+
     }
 
     public void onDisable()
@@ -61,6 +71,21 @@ public class Wild extends JavaPlugin
         getServer().getPluginManager().registerEvents(new MainInvHandler(), this);
         getServer().getPluginManager().registerEvents(new RangeInvHandler(), this);
         getServer().getPluginManager().registerEvents(teleportationDelay, this);
+    }
+
+    private void createCustomConfig() {
+        itemConfigFile = new File(getDataFolder(), "guiitems.yml");
+        if (!itemConfigFile.exists()) {
+            itemConfigFile.getParentFile().mkdirs();
+            saveResource("guiitems.yml", false);
+        }
+
+        itemConfig = new YamlConfiguration();
+        try {
+            itemConfig.load(itemConfigFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadEconomy()
@@ -81,16 +106,11 @@ public class Wild extends JavaPlugin
         worldEdit = null;
     }
 
-    public Economy getEconomy() {
-        return economy;
-    }
+    public Economy getEconomy() { return economy; }
 
-    public WorldEditPlugin getWorldEdit()
-    {
-        return worldEdit;
-    }
+    public WorldEditPlugin getWorldEdit() { return worldEdit; }
 
-    public static Wild getInstance() {
-        return instance;
-    }
+    public FileConfiguration getItemConfig() { return itemConfig; }
+
+    public static Wild getInstance() { return instance; }
 }

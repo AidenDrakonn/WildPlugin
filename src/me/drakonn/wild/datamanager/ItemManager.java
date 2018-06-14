@@ -34,15 +34,15 @@ public class ItemManager
     public ItemManager(Wild plugin)
     {
         this.plugin = plugin;
-        config = plugin.getConfig();
+        config = plugin.getItemConfig();
     }
 
     public void loadItems()
     {
         rangeItems.clear();
         mainGuiItems.clear();
-        ConfigurationSection mainGui = config.getConfigurationSection("guiitem.maingui");
-        ConfigurationSection rangeGui = config.getConfigurationSection("guiitem.rangegui");
+        ConfigurationSection mainGui = config.getConfigurationSection("maingui");
+        ConfigurationSection rangeGui = config.getConfigurationSection("rangegui");
         for(String path : mainGui.getKeys(false))
         {
             if(path.equalsIgnoreCase("standardlore"))

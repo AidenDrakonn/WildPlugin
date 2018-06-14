@@ -34,7 +34,7 @@ public abstract class AbstractPortal implements Listener
 
     private List<Location> generatePortal(Location maxLoc, Location minLoc)
     {
-        List<Location> portalLocs = new ArrayList<>();;
+        List<Location> portalLocs = new ArrayList<>();
 
         int topBlockX = (minLoc.getBlockX() < maxLoc.getBlockX() ? maxLoc.getBlockX() : minLoc.getBlockX());
         int bottomBlockX = (minLoc.getBlockX() > maxLoc.getBlockX() ? maxLoc.getBlockX() : minLoc.getBlockX());

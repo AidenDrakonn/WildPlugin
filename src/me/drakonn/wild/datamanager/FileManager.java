@@ -12,7 +12,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
 
 public class FileManager
 {
@@ -33,19 +32,17 @@ public class FileManager
         }
 
         portalfile = new File(plugin.getDataFolder(), "portals.yml");
-        if(!portalfile.exists())
-        {
-            try
-            {
+        if(!portalfile.exists()) {
+            try {
                 portalfile.createNewFile();
             }
-
-            catch(IOException e)
-            {
+            catch(IOException e) {
                 e.printStackTrace();
             }
         }
+
         portalcfg = YamlConfiguration.loadConfiguration(portalfile);
+
     }
 
     public void loadData()
@@ -66,7 +63,12 @@ public class FileManager
 
     public void saveData()
     {
-        ConfigurationSection topSection = portalcfg.createSection("portal");
+        ConfigurationSection topSection;
+        if(portalcfg.getConfigurationSection("portal") != null)
+            topSection = portalcfg.getConfigurationSection("portal");
+        else
+            topSection = portalcfg.createSection("portal");
+
         for(AbstractPortal portal : AbstractPortal.getPortals())
         {
             ConfigurationSection section = topSection.createSection(portal.getName());

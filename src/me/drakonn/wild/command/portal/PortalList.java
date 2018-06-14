@@ -13,7 +13,7 @@ public class PortalList {
         {
             i++;
             String name = portal.getName();
-            player.sendMessage("§b"+Integer.toString(i) + ". §7- §f" + name);
+            player.sendMessage("§b"+Integer.toString(i) + " §7- §f" + name);
         }
         player.sendMessage("§7------------------");
     }
